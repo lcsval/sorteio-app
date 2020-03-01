@@ -5,12 +5,31 @@ import { Component, OnInit } from '@angular/core';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 	title = 'sorteio-app';
-	list: Array<{ number: number, visible: boolean }>;
+	sortedNumbers: boolean = true;
+
+	listPrincipal = Array<{ number: number, visible: boolean }>();
+	listOne = Array<{ number: number, visible: boolean }>(); 
+	listTwo = Array<{ number: number, visible: boolean }>();
+	listThree = Array<{ number: number, visible: boolean }>();
+	listFour =  Array<{ number: number, visible: boolean }>();
+	listFive = Array<{ number: number, visible: boolean }>();
+
+	ngOnInit(): void {
+		this.listPrincipal = this.sortNumbers(false, false);
+		this.listOne = this.sortNumbers(true, true);
+		this.listTwo = this.sortNumbers(true, true);
+		this.listThree = this.sortNumbers(true, true);
+		this.listFour = this.sortNumbers(true, true);
+		this.listFive = this.sortNumbers(true, true);
+	}
 
 	onSort() {
-		this.sortNumbers();
+		this.sortedNumbers = false;
+		this.listPrincipal = this.sortNumbers(true, false);
+		
+		this.cleanExistingMatchingNumber();
 
 		let interval = setInterval(gen => {
 			const { value, done } = gen.next()
@@ -18,20 +37,49 @@ export class AppComponent {
 			if (done)
 				clearInterval(interval)
 			else 
-				this.list[this.list.indexOf(value)].visible = true;
+			{
+				this.listPrincipal[this.listPrincipal.indexOf(value)].visible = true;
+				this.matchExistingNumbers(value);
+			}
 
-		}, 1000, this.list[Symbol.iterator]())
-
+		}, 1000, this.listPrincipal[Symbol.iterator]());
 	}
 
-	private sortNumbers() {
-		this.list = [
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
-			{ number: Math.floor((Math.random() * 60) + 1), visible: false },
+	private matchExistingNumbers(value: any) {
+		if (this.listOne.filter(f => f.number == value.number).length > 0)
+			document.getElementById(`lo${this.listOne.indexOf(this.listOne.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+
+		if (this.listTwo.filter(f => f.number == value.number).length > 0)
+			document.getElementById(`lt${this.listTwo.indexOf(this.listTwo.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+
+		if (this.listThree.filter(f => f.number == value.number).length > 0)
+			document.getElementById(`lr${this.listThree.indexOf(this.listThree.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+
+		if (this.listFour.filter(f => f.number == value.number).length > 0)
+			document.getElementById(`lf${this.listFour.indexOf(this.listFour.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+
+		if (this.listFive.filter(f => f.number == value.number).length > 0)
+			document.getElementById(`lv${this.listFive.indexOf(this.listFive.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+	}
+
+	private cleanExistingMatchingNumber() {
+		for (var i = 0; i < 6; i++) {
+			document.getElementById(`lo${i}`).style.background = 'black';
+			document.getElementById(`lt${i}`).style.background = 'black';
+			document.getElementById(`lr${i}`).style.background = 'black';
+			document.getElementById(`lf${i}`).style.background = 'black';
+			document.getElementById(`lv${i}`).style.background = 'black';
+		}
+	}
+
+	private sortNumbers(genNumber: boolean, isVisible: boolean) {
+		return [
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
 		];
 	}
 }
