@@ -1,0 +1,22 @@
+.circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 25px;
+    color: #fff;
+    line-height: 80px;
+    text-align: center;
+    background: #000
+}
+
+.row {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center; /* for centering 3 blocks in the center */
+    /* justify-content: space-between; for space in between */ 
+}
+
+.block {
+    width: 100px;
+}
