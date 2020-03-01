@@ -331,7 +331,8 @@
 	</div>
 	<div class="row">
 		<br/>
-		<button (click)="onSort()">Iniciar Sorteio</button>
+		<button (click)="onSort()" [disabled]="disOnSort">Iniciar Sorteio</button>
+		<button (click)="onGenNewNumbers()" [disabled]="disOnGenNewNumbers">Gerar novos números</button>
 	</div>
 
 	<br/>
@@ -391,7 +392,9 @@
 		<div id="lv4" class="circle block"> {{ this.listFive[4].number }} </div>
 		<div id="lv5" class="circle block"> {{ this.listFive[5].number }} </div>
 	</div>
-
+	<div class="row">
+		<button (click)="onGenNewGame()" [disabled]="disOnGenNewGame">Adicionar novo jogo</button>
+	</div>
 </div>
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->

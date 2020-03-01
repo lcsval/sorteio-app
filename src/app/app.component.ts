@@ -8,12 +8,15 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit {
 	title = 'sorteio-app';
 	sortedNumbers: boolean = true;
+	disOnSort: boolean = false;
+	disOnGenNewNumbers: boolean = false;
+	disOnGenNewGame: boolean = false;
 
 	listPrincipal = Array<{ number: number, visible: boolean }>();
-	listOne = Array<{ number: number, visible: boolean }>(); 
+	listOne = Array<{ number: number, visible: boolean }>();
 	listTwo = Array<{ number: number, visible: boolean }>();
 	listThree = Array<{ number: number, visible: boolean }>();
-	listFour =  Array<{ number: number, visible: boolean }>();
+	listFour = Array<{ number: number, visible: boolean }>();
 	listFive = Array<{ number: number, visible: boolean }>();
 
 	ngOnInit(): void {
@@ -27,22 +30,44 @@ export class AppComponent implements OnInit {
 
 	onSort() {
 		this.sortedNumbers = false;
+		this.disOnGenNewNumbers = true;
+		this.disOnSort = true;
+		this.disOnGenNewGame = true;
+
 		this.listPrincipal = this.sortNumbers(true, false);
-		
+
 		this.cleanExistingMatchingNumber();
 
 		let interval = setInterval(gen => {
 			const { value, done } = gen.next()
 
-			if (done)
-				clearInterval(interval)
-			else 
-			{
+			if (done) {
+				clearInterval(interval);
+				this.disOnGenNewNumbers = false;
+				this.disOnSort = false;
+				this.disOnGenNewGame = false;
+			}
+			else {
 				this.listPrincipal[this.listPrincipal.indexOf(value)].visible = true;
 				this.matchExistingNumbers(value);
 			}
 
 		}, 1000, this.listPrincipal[Symbol.iterator]());
+	}
+
+	onGenNewNumbers() {
+		this.cleanExistingMatchingNumber();
+		this.listOne = this.sortNumbers(true, true);
+		this.listTwo = this.sortNumbers(true, true);
+		this.listThree = this.sortNumbers(true, true);
+		this.listFour = this.sortNumbers(true, true);
+		this.listFive = this.sortNumbers(true, true);
+
+		this.listPrincipal.forEach(f => this.matchExistingNumbers(f));
+	}
+
+	onGenNewGame() {
+		alert("teste");
 	}
 
 	private matchExistingNumbers(value: any) {
