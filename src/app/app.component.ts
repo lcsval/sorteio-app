@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ModalComponent } from './modal/modal.component';
 
 @Component({
 	selector: 'app-root',
@@ -19,6 +21,10 @@ export class AppComponent implements OnInit {
 	listFour = Array<{ number: number, visible: boolean }>();
 	listFive = Array<{ number: number, visible: boolean }>();
 
+	list = Array<Array<{ number: number, visible: boolean }>>();
+
+	constructor(private dialog: MatDialog) { }
+
 	ngOnInit(): void {
 		this.listPrincipal = this.sortNumbers(false, false);
 		this.listOne = this.sortNumbers(true, true);
@@ -26,6 +32,12 @@ export class AppComponent implements OnInit {
 		this.listThree = this.sortNumbers(true, true);
 		this.listFour = this.sortNumbers(true, true);
 		this.listFive = this.sortNumbers(true, true);
+
+		this.list.push(this.listOne);
+		this.list.push(this.listTwo);
+		this.list.push(this.listThree);
+		this.list.push(this.listFour);
+		this.list.push(this.listFive);
 	}
 
 	onSort() {
@@ -67,7 +79,20 @@ export class AppComponent implements OnInit {
 	}
 
 	onGenNewGame() {
-		alert("teste");
+		const dialogRef = this.dialog.open(ModalComponent, { width: '350px' });
+
+		dialogRef.afterClosed().subscribe(result => {
+			var listaFilho = [];
+
+			
+			debugger;
+			result.list.forEach(f => {
+				listaFilho.push({ number: f, visible: true});
+			});
+
+			debugger;
+			this.list.push( new Array() { listaFilho });
+		});
 	}
 
 	private matchExistingNumbers(value: any) {
@@ -106,5 +131,10 @@ export class AppComponent implements OnInit {
 			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
 			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
 		];
+	}
+
+	teste(item, index) {
+		debugger;
+		return item[index].number;
 	}
 }

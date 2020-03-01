@@ -1,0 +1,38 @@
+<h1 mat-dialog-title>Novo jogo</h1>
+<mat-dialog-content>
+    <p>Informe os seus seis números desejados</p>
+    <div class="row">
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 1" type="number" (change)="number1Change($event)"
+                name="number1" required>
+        </mat-form-field>
+
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 2" type="number" (change)="number2Change($event)"
+                name="number2" required>
+        </mat-form-field>
+
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 3" type="number" (change)="number3Change($event)"
+                name="number3" required>
+        </mat-form-field>
+
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 4" type="number" (change)="number4Change($event)"
+                name="number4" required>
+        </mat-form-field>
+
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 5" type="number" (change)="number5Change($event)"
+                name="number5" required>
+        </mat-form-field>
+
+        <mat-form-field class="block">
+            <input matInput placeholder="Insira o número 6" type="number" (change)="number6Change($event)"
+                name="number6" required>
+        </mat-form-field>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button (click)="confirm(this.list)">Confirm</button>
+</mat-dialog-actions>
