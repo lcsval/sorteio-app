@@ -4,32 +4,32 @@
     <div class="row">
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 1" type="number" (change)="number1Change($event)"
-                name="number1" required>
+                name="number1" [value]="this.list[0]" required>
         </mat-form-field>
 
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 2" type="number" (change)="number2Change($event)"
-                name="number2" required>
+                name="number2" [value]="this.list[1]" required>
         </mat-form-field>
 
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 3" type="number" (change)="number3Change($event)"
-                name="number3" required>
+                name="number3" [value]="this.list[2]" required>
         </mat-form-field>
 
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 4" type="number" (change)="number4Change($event)"
-                name="number4" required>
+                name="number4" [value]="this.list[3]" required>
         </mat-form-field>
 
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 5" type="number" (change)="number5Change($event)"
-                name="number5" required>
+                name="number5" [value]="this.list[4]" required>
         </mat-form-field>
 
         <mat-form-field class="block">
             <input matInput placeholder="Insira o número 6" type="number" (change)="number6Change($event)"
-                name="number6" required>
+                name="number6" [value]="this.list[5]" required>
         </mat-form-field>
     </div>
 </mat-dialog-content>

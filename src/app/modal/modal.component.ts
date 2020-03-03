@@ -1,4 +1,4 @@
-import { Component, Inject, Injectable } from '@angular/core';
+import { Component, Inject, Injectable, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -6,10 +6,18 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 	templateUrl: './modal.component.html',
 	styleUrls: ['./modal.component.css']
 })
-export class ModalComponent {
+export class ModalComponent implements OnInit {
 	list = Array<number>();
 
-	constructor(private dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
+	constructor(private dialogRef: MatDialogRef<ModalComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {}
+
+	ngOnInit(): void {
+		this.list[0] = Math.floor((Math.random() * 60) + 1);
+		this.list[1] = Math.floor((Math.random() * 60) + 1);
+		this.list[2] = Math.floor((Math.random() * 60) + 1);
+		this.list[3] = Math.floor((Math.random() * 60) + 1);
+		this.list[4] = Math.floor((Math.random() * 60) + 1);
+		this.list[5] = Math.floor((Math.random() * 60) + 1);
 	}
 
 	number1Change(event) {

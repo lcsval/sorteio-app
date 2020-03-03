@@ -343,54 +343,9 @@
 
 	<br/>
 
-	<div class="row">
-		<h2>1:</h2>
-		<div id="lo0" class="circle block"> {{ this.listOne[0].number }} </div>
-		<div id="lo1" class="circle block"> {{ this.listOne[1].number }} </div>
-		<div id="lo2" class="circle block"> {{ this.listOne[2].number }} </div>
-		<div id="lo3" class="circle block"> {{ this.listOne[3].number }} </div>
-		<div id="lo4" class="circle block"> {{ this.listOne[4].number }} </div>
-		<div id="lo5" class="circle block"> {{ this.listOne[5].number }} </div>
-	</div>
-
-	<div class="row">
-		<h2>2:</h2>
-		<div id="lt0" class="circle block"> {{ this.listTwo[0].number }} </div>
-		<div id="lt1" class="circle block"> {{ this.listTwo[1].number }} </div>
-		<div id="lt2" class="circle block"> {{ this.listTwo[2].number }} </div>
-		<div id="lt3" class="circle block"> {{ this.listTwo[3].number }} </div>
-		<div id="lt4" class="circle block"> {{ this.listTwo[4].number }} </div>
-		<div id="lt5" class="circle block"> {{ this.listTwo[5].number }} </div>
-	</div>
-	
-	<div class="row">
-		<h2>3:</h2>
-		<div id="lr0" class="circle block"> {{ this.listThree[0].number }} </div>
-		<div id="lr1" class="circle block"> {{ this.listThree[1].number }} </div>
-		<div id="lr2" class="circle block"> {{ this.listThree[2].number }} </div>
-		<div id="lr3" class="circle block"> {{ this.listThree[3].number }} </div>
-		<div id="lr4" class="circle block"> {{ this.listThree[4].number }} </div>
-		<div id="lr5" class="circle block"> {{ this.listThree[5].number }} </div>
-	</div>
-
-	<div class="row">
-		<h2>4:</h2>
-		<div id="lf0" class="circle block"> {{ this.listFour[0].number }} </div>
-		<div id="lf1" class="circle block"> {{ this.listFour[1].number }} </div>
-		<div id="lf2" class="circle block"> {{ this.listFour[2].number }} </div>
-		<div id="lf3" class="circle block"> {{ this.listFour[3].number }} </div>
-		<div id="lf4" class="circle block"> {{ this.listFour[4].number }} </div>
-		<div id="lf5" class="circle block"> {{ this.listFour[5].number }} </div>
-	</div>
-
-	<div class="row">
-		<h2>5:</h2>
-		<div id="lv0" class="circle block"> {{ this.listFive[0].number }} </div>
-		<div id="lv1" class="circle block"> {{ this.listFive[1].number }} </div>
-		<div id="lv2" class="circle block"> {{ this.listFive[2].number }} </div>
-		<div id="lv3" class="circle block"> {{ this.listFive[3].number }} </div>
-		<div id="lv4" class="circle block"> {{ this.listFive[4].number }} </div>
-		<div id="lv5" class="circle block"> {{ this.listFive[5].number }} </div>
+	<div class="row" *ngFor="let father of this.listGames; let i = index">
+		<h2>{{i+1}}: </h2>
+		<div class="circle block" *ngFor="let child of father; let c = index" id="{{ 'l' + i + 'c' + child }}"> {{child}} </div>
 	</div>
 	
 	<div class="row">

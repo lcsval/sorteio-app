@@ -15,29 +15,20 @@ export class AppComponent implements OnInit {
 	disOnGenNewGame: boolean = false;
 
 	listPrincipal = Array<{ number: number, visible: boolean }>();
-	listOne = Array<{ number: number, visible: boolean }>();
-	listTwo = Array<{ number: number, visible: boolean }>();
-	listThree = Array<{ number: number, visible: boolean }>();
-	listFour = Array<{ number: number, visible: boolean }>();
-	listFive = Array<{ number: number, visible: boolean }>();
-
-	list = Array<Array<{ number: number, visible: boolean }>>();
+	listGames = Array<Array<number>>();
 
 	constructor(private dialog: MatDialog) { }
 
 	ngOnInit(): void {
-		this.listPrincipal = this.sortNumbers(false, false);
-		this.listOne = this.sortNumbers(true, true);
-		this.listTwo = this.sortNumbers(true, true);
-		this.listThree = this.sortNumbers(true, true);
-		this.listFour = this.sortNumbers(true, true);
-		this.listFive = this.sortNumbers(true, true);
+		this.listPrincipal = this.sortNumbers(false);
 
-		this.list.push(this.listOne);
-		this.list.push(this.listTwo);
-		this.list.push(this.listThree);
-		this.list.push(this.listFour);
-		this.list.push(this.listFive);
+		this.listGames = [
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray()
+		];
 	}
 
 	onSort() {
@@ -46,7 +37,7 @@ export class AppComponent implements OnInit {
 		this.disOnSort = true;
 		this.disOnGenNewGame = true;
 
-		this.listPrincipal = this.sortNumbers(true, false);
+		this.listPrincipal = this.sortNumbers(true);
 
 		this.cleanExistingMatchingNumber();
 
@@ -68,73 +59,76 @@ export class AppComponent implements OnInit {
 	}
 
 	onGenNewNumbers() {
-		this.cleanExistingMatchingNumber();
-		this.listOne = this.sortNumbers(true, true);
-		this.listTwo = this.sortNumbers(true, true);
-		this.listThree = this.sortNumbers(true, true);
-		this.listFour = this.sortNumbers(true, true);
-		this.listFive = this.sortNumbers(true, true);
+		this.listGames = [
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray(),
+			this.generateNewSimpleArray()
+		];
 
-		this.listPrincipal.forEach(f => this.matchExistingNumbers(f));
+		this.listPrincipal = [
+			{ number: 0, visible: false },
+			{ number: 0, visible: false },
+			{ number: 0, visible: false },
+			{ number: 0, visible: false },
+			{ number: 0, visible: false },
+			{ number: 0, visible: false }
+		];
 	}
 
 	onGenNewGame() {
 		const dialogRef = this.dialog.open(ModalComponent, { width: '350px' });
 
 		dialogRef.afterClosed().subscribe(result => {
-			var listaFilho = [];
+			let lst = [];
+			result.list.forEach(f => lst.push(Number(f)));
 
-			
-			debugger;
-			result.list.forEach(f => {
-				listaFilho.push({ number: f, visible: true});
-			});
-
-			debugger;
-			this.list.push( new Array() { listaFilho });
+			this.listGames.push(lst);
+			this.listPrincipal.forEach(f => this.matchExistingNumbers(f));
 		});
 	}
 
 	private matchExistingNumbers(value: any) {
-		if (this.listOne.filter(f => f.number == value.number).length > 0)
-			document.getElementById(`lo${this.listOne.indexOf(this.listOne.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+		this.listGames.forEach((list, listIndex) => {
+			list.forEach(child => {
+				if (child == value.number) {
+					var el = document.getElementById(`l${listIndex}c${child}`);
 
-		if (this.listTwo.filter(f => f.number == value.number).length > 0)
-			document.getElementById(`lt${this.listTwo.indexOf(this.listTwo.filter(f => f.number == value.number)[0])}`).style.background = 'green';
-
-		if (this.listThree.filter(f => f.number == value.number).length > 0)
-			document.getElementById(`lr${this.listThree.indexOf(this.listThree.filter(f => f.number == value.number)[0])}`).style.background = 'green';
-
-		if (this.listFour.filter(f => f.number == value.number).length > 0)
-			document.getElementById(`lf${this.listFour.indexOf(this.listFour.filter(f => f.number == value.number)[0])}`).style.background = 'green';
-
-		if (this.listFive.filter(f => f.number == value.number).length > 0)
-			document.getElementById(`lv${this.listFive.indexOf(this.listFive.filter(f => f.number == value.number)[0])}`).style.background = 'green';
+					if (el != null)
+						el.style.background = 'green';
+				}
+			});
+		});
 	}
 
 	private cleanExistingMatchingNumber() {
-		for (var i = 0; i < 6; i++) {
-			document.getElementById(`lo${i}`).style.background = 'black';
-			document.getElementById(`lt${i}`).style.background = 'black';
-			document.getElementById(`lr${i}`).style.background = 'black';
-			document.getElementById(`lf${i}`).style.background = 'black';
-			document.getElementById(`lv${i}`).style.background = 'black';
-		}
+		this.listGames.forEach((list, listIndex) => {
+			list.forEach(child => {
+				document.getElementById(`l${listIndex}c${child}`).style.background = 'black';
+			});
+		});
 	}
 
-	private sortNumbers(genNumber: boolean, isVisible: boolean) {
+	private sortNumbers(genNumber: boolean) {
 		return [
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
-			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: isVisible },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
+			{ number: genNumber ? Math.floor((Math.random() * 60) + 1) : 0, visible: false },
 		];
 	}
 
-	teste(item, index) {
-		debugger;
-		return item[index].number;
+	private generateNewSimpleArray() {
+		var number = [];
+		while (number.length < 6) {
+			var r = Math.floor(Math.random() * 60) + 1;
+			if (number.indexOf(r) === -1)
+				number.push(r);
+		}
+
+		return number;
 	}
 }
